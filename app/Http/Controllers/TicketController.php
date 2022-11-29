@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Ticket;
+use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 
@@ -25,7 +28,10 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $labels = Label::all();
+
+        return view('ticket.create', compact('categories', 'labels'));
     }
 
     /**
@@ -36,7 +42,7 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-        //
+        Ticket::create($request->validated());
     }
 
     /**
