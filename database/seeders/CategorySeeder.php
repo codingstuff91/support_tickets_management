@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -13,8 +14,8 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Categroy::create(['name' => 'Technical']);
-        Categroy::create(['name' => 'Payment']);
-        Categroy::create(['name' => 'Invoice/billing']);
+        Category::create(['name' => 'Technical']);
+        Category::create(['name' => 'Payment']);
+        Category::create(['name' => 'Invoice/billing']);
     }
 }
