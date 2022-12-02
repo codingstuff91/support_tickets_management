@@ -17,6 +17,7 @@
                                 <th>Description</th>
                                 <th>Status</th>
                                 <th>Priority</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,6 +26,11 @@
                                 <td>{{$ticket->description }}</td>
                                 <td>{{$ticket->status }}</td>
                                 <td>{{$ticket->priority }}</td>
+                                <td>
+                                    <button>
+                                        <a href="{{ route('tickets.show', $ticket->id) }}">More </a>
+                                    </button>
+                                </td>
                             @endforeach
                         </tbody>
                     </table>

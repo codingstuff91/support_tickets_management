@@ -100,4 +100,18 @@ class TicketTest extends TestCase
             $ticket->description,
         ]);
     }
+
+    public function test_the_tickets_details_page_can_be_rendered_with_informations()
+    {
+        $ticket = Ticket::factory()->create();
+
+        $response = $this->get('tickets/' . $ticket->id);
+
+        $response->assertOk();
+        $response->assertSee('Ticket details');
+        $response->assertSee($ticket->title);
+        $response->assertSee($ticket->description);
+        $response->assertSee($ticket->priority);
+        $response->assertSee($ticket->status);
+    }
 }
