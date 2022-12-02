@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -18,8 +19,8 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Matthieu',
             'email' => 'mattou2812@gmail.com',
-            'password' => bcrypt('Fnp90std@'),
-            'role_id' => 1,
+            'password' => bcrypt('secret'),
+            'role_id' => Role::first()->id,
             'remember_token' => Str::random(30)
         ]);
     }
