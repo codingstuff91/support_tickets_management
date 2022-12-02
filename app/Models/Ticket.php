@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -37,5 +38,15 @@ class Ticket extends Model
     public function labels()
     {
         return $this->belongsToMany(Label::class);
+    }
+
+    public function scopePersonnal($query)
+    {
+        $query->where('user_id', Auth::user()->id);
+    }
+
+    public function scopeOpen($query)
+    {
+        $query->where('status','open');
     }
 }
