@@ -4,6 +4,7 @@ namespace Tests\Feature\Ticket;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -83,5 +84,20 @@ class TicketTest extends TestCase
 
         $response->assertOk();
         $this->assertDatabaseCount('tickets', 1);
+    }
+
+    public function test_the_tickets_index_list_is_rendered_correctly()
+    {
+        $ticket = Ticket::factory()->create();
+
+        $response = $this->get('tickets');
+
+        $response->assertOk();
+        $response->assertSeeInOrder([
+            'Tickets list', 
+            $ticket->title,
+            $ticket->status, 
+            $ticket->description,
+        ]);
     }
 }
