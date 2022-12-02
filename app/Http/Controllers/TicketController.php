@@ -6,6 +6,7 @@ use App\Models\Label;
 use App\Models\Ticket;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 
@@ -42,7 +43,12 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-        Ticket::create($request->validated());
+        Ticket::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'priority' => $request->priority,
+            'user_id' => Auth::user()->id,
+        ]);
     }
 
     /**

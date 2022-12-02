@@ -4,6 +4,7 @@ namespace Tests\Feature\Ticket;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -74,5 +75,13 @@ class TicketTest extends TestCase
         $response = $this->post('/tickets', $this->validFields(['categories' => '']));
         
         $response->assertSessionHasErrors(['categories']);
+    }
+
+    public function test_a_ticket_is_created_successfully()
+    { 
+        $response = $this->post('/tickets', $this->validFields([]));
+
+        $response->assertOk();
+        $this->assertDatabaseCount('tickets', 1);
     }
 }

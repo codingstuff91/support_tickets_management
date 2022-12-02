@@ -18,11 +18,9 @@ class CreateTicketsTable extends Migration
             $table->string('title', 50);
             $table->text('description');
             $table->string('priority');
-            $table->string('status');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('agent_id')->nullable();
-            $table->foreign('agent_id')->references('id')->on('users');
+            $table->string('status')->default('open');
+            $table->foreignId('user_id');
+            $table->foreignId('agent_id')->nullable();
             $table->timestamps();
         });
     }
