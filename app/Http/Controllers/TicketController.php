@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Label;
 use App\Models\Ticket;
 use App\Models\Category;
@@ -9,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewTicketCreatedNotification;
 
 class TicketController extends Controller
 {
@@ -54,6 +57,10 @@ class TicketController extends Controller
             'priority' => $request->priority,
             'user_id' => Auth::user()->id,
         ]);
+
+        // Send notification to admins
+        $admins = User::where('role_id', 3)->get();
+        Notification::send($admins, new NewTicketCreatedNotification());
     }
 
     /**

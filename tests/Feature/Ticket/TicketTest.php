@@ -3,13 +3,16 @@
 namespace Tests\Feature\Ticket;
 
 use Tests\TestCase;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Label;
 use App\Models\Ticket;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Notifications\NewTicketCreatedNotification;
 
 class TicketTest extends TestCase
 {
@@ -86,6 +89,23 @@ class TicketTest extends TestCase
 
         $response->assertOk();
         $this->assertDatabaseCount('tickets', 1);
+    }
+
+    public function test_a_notification_is_sent_to_admins_after_ticket_creation()
+    {
+        Notification::fake();
+
+        $role = Role::factory([
+            'name' => 'Admin',
+        ])->create();
+
+        $admin = User::factory([
+            'role_id' => Role::whereName('Admin')->get()->first()->id,
+        ])->create();
+
+        $response = $this->post('/tickets', $this->validFields([]));
+
+        Notification::assertSentTo($admin, NewTicketCreatedNotification::class);
     }
 
     public function test_the_tickets_index_list_is_rendered_correctly()
