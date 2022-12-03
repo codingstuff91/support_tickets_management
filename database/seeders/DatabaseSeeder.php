@@ -25,10 +25,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create 1 admin user
-        User::factory()->create(['role_id' => Role::whereName('admin')->get()->first()->id]);
+        User::factory()->create([
+            'email' => 'mattou2812@gmail.com',
+            'role_id' => Role::whereName('admin')->get()->first()->id
+        ]);
 
         // Create 1 agent user
-        User::factory()->create(['role_id' => Role::whereName('agent')->get()->first()->id]);
+        User::factory()->create([
+            'email' => 'jamesbond@gmail.com',
+            'role_id' => Role::whereName('agent')->get()->first()->id
+        ]);
         
         // Create 5 regular users
         User::factory(5)->create();
