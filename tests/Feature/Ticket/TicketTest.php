@@ -4,7 +4,9 @@ namespace Tests\Feature\Ticket;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Label;
 use App\Models\Ticket;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -101,9 +103,13 @@ class TicketTest extends TestCase
         ]);
     }
 
-    public function test_the_tickets_details_page_can_be_rendered_with_informations()
+    public function test_the_ticket_details_page_should_display_ticket_informations()
     {
         $ticket = Ticket::factory()->create();
+        $category = Category::factory()->create();
+        $ticket->categories()->attach($category);
+        $label = Label::factory()->create();
+        $ticket->labels()->attach($label);  
 
         $response = $this->get('tickets/' . $ticket->id);
 
@@ -113,5 +119,9 @@ class TicketTest extends TestCase
         $response->assertSee($ticket->description);
         $response->assertSee($ticket->priority);
         $response->assertSee($ticket->status);
+
+        // We should see the labels and the categories
+        $response->assertSee($ticket->categories->first()->name);
+        $response->assertSee($ticket->labels->first()->name);
     }
 }

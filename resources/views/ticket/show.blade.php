@@ -13,6 +13,14 @@
                     <p>{{ $ticket->description }}</p>
                     <p>{{ $ticket->status }}</p>
                     <p>{{ $ticket->priority }}</p>
+                    
+                    @foreach ($labels as $label)
+                        <p>{{ $label->name }}</p>
+                    @endforeach
+
+                    @foreach ($categories as $category)
+                        <p>{{ $category->name }}</p>
+                    @endforeach
                 </div>
             </div>
         </div>

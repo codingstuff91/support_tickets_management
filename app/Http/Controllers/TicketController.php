@@ -21,6 +21,7 @@ class TicketController extends Controller
     {
         $tickets = Ticket::personnal()
                     ->open()
+                    ->with(['categories', 'labels'])
                     ->get();
 
         return view('ticket.index', compact('tickets'));
@@ -63,7 +64,10 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        return view('ticket.show', compact('ticket'));
+        $categories = $ticket->categories()->get();
+        $labels = $ticket->labels()->get();
+
+        return view('ticket.show', compact('categories', 'labels', 'ticket'));
     }
 
     /**
