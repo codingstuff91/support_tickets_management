@@ -73,8 +73,9 @@ class TicketController extends Controller
     {
         $categories = $ticket->categories()->get();
         $labels = $ticket->labels()->get();
+        $comments = $ticket->comments()->get();
 
-        return view('ticket.show', compact('categories', 'labels', 'ticket'));
+        return view('ticket.show', compact('categories', 'labels', 'ticket', 'comments'));
     }
 
     /**

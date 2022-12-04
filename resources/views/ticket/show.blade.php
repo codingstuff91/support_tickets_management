@@ -21,6 +21,18 @@
                     @foreach ($categories as $category)
                         <p>{{ $category->name }}</p>
                     @endforeach
+
+                    <h2>Comments</h2>
+                    <h3>Add a new comment</h3>
+                    <form action="" method="post">
+                        @csrf
+
+                    </form>
+
+                    @foreach ($comments as $comment)
+                        <p>{{ $comment->body }}</p>
+                        <p>{{ $comment->user->name }}</p>
+                    @endforeach
                 </div>
             </div>
         </div>
