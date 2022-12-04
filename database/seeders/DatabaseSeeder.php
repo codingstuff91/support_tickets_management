@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Label;
 use App\Models\Ticket;
+use App\Models\Comment;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
@@ -46,5 +47,11 @@ class DatabaseSeeder extends Seeder
 
         $ticket->labels()->attach($label);
         $ticket->categories()->attach($category);
+
+        // Create a comment
+        $comment = Comment::factory()->create([
+            'user_id' => User::first()->id,
+            'ticket_id' => Ticket::first()->id,
+        ]);
     }
 }
