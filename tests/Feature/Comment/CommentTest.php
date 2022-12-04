@@ -46,4 +46,13 @@ class CommentTest extends TestCase
         $response->assertSee('Comments');
         $response->assertSee('Add a new comment');
     }
+
+    public function test_a_comment_needs_a_body()
+    {
+        $response = $this->post('/comments', [
+            'body' => ''
+        ]);
+
+        $response->assertSessionHasErrors(['body']);
+    }
 }

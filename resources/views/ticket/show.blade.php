@@ -24,9 +24,12 @@
 
                     <h2>Comments</h2>
                     <h3>Add a new comment</h3>
-                    <form action="" method="post">
+                    <form action="{{ route('comment.store') }}" method="post">
                         @csrf
+                        <label>Type your comment</label>
+                        <textarea name="body" cols="30" rows="10"></textarea>
 
+                        <input type="submit" value="Confirm">
                     </form>
 
                     @foreach ($comments as $comment)
