@@ -18,7 +18,7 @@ class CommentFactory extends Factory
         return [
             'user_id' => User::first()->id,
             'ticket_id' => Ticket::first()->id,
-            'body' => $this->faker->sentence(2),
+            'body' => $this->faker->sentence(40),
         ];
     }
 }
