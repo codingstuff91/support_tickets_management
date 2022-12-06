@@ -55,4 +55,15 @@ class CommentTest extends TestCase
 
         $response->assertSessionHasErrors(['body']);
     }
+
+    public function test_a_comment_is_created_successfully()
+    {
+        $response = $this->post('/comments', [
+            'body' => 'example comment',
+            'user_id' => $this->user->id,
+            'ticket_id' => $this->ticket->id
+        ]);
+
+        $this->assertDatabaseCount('comments', 1);
+    }
 }
