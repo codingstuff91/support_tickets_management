@@ -144,4 +144,15 @@ class TicketTest extends TestCase
         $response->assertSee($ticket->categories->first()->name);
         $response->assertSee($ticket->labels->first()->name);
     }
+
+    public function test_the_update_button_should_not_be_visible_by_a_different_user()
+    {
+        $ticket = Ticket::factory()->create();
+        $anotherUser = User::factory()->create();
+        $this->actingAs($anotherUser);
+
+        $response = $this->get('/tickets/' . $ticket->id);
+        $response->assertOk();
+        $response->assertDontSee('Edit Ticket', false);
+    }
 }
