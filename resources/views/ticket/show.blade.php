@@ -8,18 +8,20 @@
                 <p class="mt-2 mr-2">Status : {{ $ticket->status }}</p>
                 <p class="mt-2 ml-2">Priority : {{ $ticket->priority }}</p>
             </div>
-        </div>
-        <div class="flex">
-            <div class="mt-2 ml-4"> 
+            <div class="flex">
+                <p>Categories :</p>
                 @foreach ($categories as $category)
-                    <p class="max-h-12 bg-green-300 rounded-xl px-2 py-2">{{ $category->name }}</p>
+                    <p class="ml-2">{{ $category->name }}</p>
                 @endforeach
             </div>
-            <div class="mt-2 ml-4">
+            <div class="flex">
+                <p>Labels :</p>
                 @foreach ($labels as $label)
-                    <p class="max-h-12 bg-lime-200 rounded-xl px-2 py-2">{{ $label->name }}</p>
+                    <p class="ml-2">{{ $label->name }}</p>
                 @endforeach
             </div>
+        </div>
+        <div>
             @can('update', $ticket)
                 <div>
                     <button class="text-white ml-2 mt-2 max-h-12 rounded-xl bg-blue-500 px-4 py-2">Edit Ticket</button>
