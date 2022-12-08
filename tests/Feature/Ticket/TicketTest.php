@@ -155,4 +155,24 @@ class TicketTest extends TestCase
         $response->assertOk();
         $response->assertDontSee('Edit Ticket', false);
     }
+
+    public function test_the_edit_page_can_be_rendered_with_ticket_informations()
+    {
+        $ticket = Ticket::factory()->create();
+
+        $category = Category::factory()->create();
+        $label = Label::factory()->create();
+        $ticket->categories()->attach($category);
+        $ticket->labels()->attach($label);
+
+        $response = $this->get('/tickets/' . $ticket->id . '/edit');
+        $response->assertOk();
+        $response->assertSee($ticket->title);
+        $response->assertSee($ticket->description);
+        $response->assertSee($ticket->priority);
+
+        // test if the good category and label are checked
+        $response->assertSee("value=\"" . $category->id . "\" checked", false);
+        $response->assertSee("value=\"" . $label->id . "\" checked", false);
+    }
 }
