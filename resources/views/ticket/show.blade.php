@@ -24,7 +24,9 @@
         <div>
             @can('update', $ticket)
                 <div>
-                    <button class="text-white ml-2 mt-2 max-h-12 rounded-xl bg-blue-500 px-4 py-2">Edit Ticket</button>
+                    <button class="text-white ml-2 mt-2 max-h-12 rounded-xl bg-blue-500 px-4 py-2">
+                        <a href="{{ route('tickets.edit', $ticket->id) }}">Edit Ticket</a>
+                    </button>
                 </div>
             @endcan
         </div>

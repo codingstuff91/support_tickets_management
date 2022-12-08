@@ -6,10 +6,10 @@ use App\Models\User;
 use App\Models\Label;
 use App\Models\Ticket;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTicketRequest;
-use App\Http\Requests\UpdateTicketRequest;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\NewTicketCreatedNotification;
 
@@ -86,7 +86,13 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        $priorities = ['Low', 'Medium', 'High'];
+        $categories = Category::all();
+        $labels = Label::all();
+        $ticketCategories = $ticket->categories;
+        $ticketLabels = $ticket->labels;
+
+        return view('ticket.edit', compact('ticket', 'priorities', 'ticketCategories', 'categories', 'labels', 'ticketLabels'));
     }
 
     /**
@@ -96,9 +102,12 @@ class TicketController extends Controller
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTicketRequest $request, Ticket $ticket)
+    public function update(Request $request, Ticket $ticket)
     {
-        //
+        return $request->all();
+        Ticket::update($request->validated());
+
+        return redirect()->route('tickets.edit');
     }
 
     /**
