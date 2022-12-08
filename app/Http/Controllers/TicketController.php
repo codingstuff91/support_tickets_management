@@ -102,12 +102,21 @@ class TicketController extends Controller
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(StoreTicketRequest $request, Ticket $ticket)
     {
-        return $request->all();
-        Ticket::update($request->validated());
+        // $ticket->update($request->validated());
+        $ticket->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'priority' => $request->priority
+        ]);
 
-        return redirect()->route('tickets.edit');
+        $ticket->categories()->detach();
+        $ticket->categories()->attach($request->categories);
+        $ticket->labels()->detach();
+        $ticket->labels()->attach($request->labels);
+
+        return redirect()->route('tickets.show', $ticket->id);
     }
 
     /**

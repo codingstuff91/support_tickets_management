@@ -175,4 +175,21 @@ class TicketTest extends TestCase
         $response->assertSee("value=\"" . $category->id . "\" checked", false);
         $response->assertSee("value=\"" . $label->id . "\" checked", false);
     }
+
+    public function test_a_ticket_can_be_updated()
+    {
+        $ticket = Ticket::factory()->create();
+
+        $response = $this->put('/tickets/' . $ticket->id, [
+            "title" => "title modification",
+            "description" => "description modification",
+            "priority" => "priority modification",
+            "labels" => ["1", "3"],
+            "categories" => ["1", "2"]
+        ]);
+
+        $response->assertOk();
+
+        $this->assertEquals('title modification', $ticket->title);
+    }
 }

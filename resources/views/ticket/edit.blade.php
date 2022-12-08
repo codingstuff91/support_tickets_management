@@ -61,6 +61,10 @@
                                     <input type="checkbox" class="mx-2" name="categories[]" value="{{ $category->id }}" {{ $ticketCategories->contains($category) ? 'checked' : ''}}>
                                     {{ $category->name }}
                                 @endforeach
+
+                                @if ($errors->categories)
+                                    <p>{{ $errors->first('categories') }}</p>
+                                @endif
                             </label>
                         </div>
 
@@ -68,9 +72,13 @@
                             <label>Labels</label>
                             <label class="block">
                                 @foreach ($labels as $label)
-                                    <input type="checkbox" class="mx-2" name="categories[]" value="{{ $label->id }}" {{ $ticketLabels->contains($label) ? 'checked' : ''}}>
+                                    <input type="checkbox" class="mx-2" name="labels[]" value="{{ $label->id }}" {{ $ticketLabels->contains($label) ? 'checked' : ''}}>
                                     {{ $label->name }}
                                 @endforeach
+
+                                @if ($errors->labels)
+                                    <p>{{ $errors->first('labels') }}</p>
+                                @endif
                             </label>
                         </div>
 
