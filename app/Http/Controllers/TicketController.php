@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Label;
 use App\Models\Ticket;
@@ -58,8 +59,11 @@ class TicketController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
+        // Get admin role id
+        $adminRoleId = Role::where('name', 'Admin')->get()->first()->id;
+
         // Send notification to admins
-        $admins = User::where('role_id', 3)->get();
+        $admins = User::where('role_id', $adminRoleId)->get();
         Notification::send($admins, new NewTicketCreatedNotification());
     }
 
