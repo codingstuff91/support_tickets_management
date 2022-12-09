@@ -40,4 +40,13 @@ class AdminTest extends TestCase
 
         $response->assertStatus(403);    
     }
+
+    public function test_a_admin_can_access_to_admin_page()
+    {
+        $this->actingAs($this->admin);
+
+        $response = $this->get('admin');
+
+        $response->assertOk();  
+    }
 }
