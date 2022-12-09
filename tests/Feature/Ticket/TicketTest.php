@@ -178,7 +178,7 @@ class TicketTest extends TestCase
     {
         $ticket = Ticket::factory()->create();
 
-        $response = $this->put('/tickets/' . $ticket->id, [
+        $response = $this->put('tickets/' . $ticket->id, [
             "title" => "title modification",
             "description" => "description modification",
             "priority" => "priority modification",
@@ -186,6 +186,6 @@ class TicketTest extends TestCase
             "categories" => ["1", "2"]
         ]);
 
-        $this->assertEquals('title modification', $ticket->title);
+        $this->assertEquals('title modification', Ticket::first()->title);
     }
 }

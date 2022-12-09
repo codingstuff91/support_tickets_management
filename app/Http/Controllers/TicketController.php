@@ -108,12 +108,7 @@ class TicketController extends Controller
      */
     public function update(StoreTicketRequest $request, Ticket $ticket)
     {
-        // $ticket->update($request->validated());
-        $ticket->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'priority' => $request->priority
-        ]);
+        $ticket->update($request->validated());
 
         $ticket->categories()->detach();
         $ticket->categories()->attach($request->categories);
