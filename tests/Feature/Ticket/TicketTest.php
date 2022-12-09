@@ -24,6 +24,11 @@ class TicketTest extends TestCase
 
         $user = User::factory()->create();
         $this->actingAs($user);
+
+        // Create an admin role
+        $this->adminRole = Role::factory([
+            'name' => 'Admin',
+        ])->create();
     }
 
     public function test_the_ticket_create_page_can_be_rendered()
@@ -84,7 +89,7 @@ class TicketTest extends TestCase
     }
 
     public function test_a_ticket_is_created_successfully()
-    { 
+    {
         $response = $this->post('/tickets', $this->validFields([]));
 
         $response->assertOk();
@@ -95,13 +100,9 @@ class TicketTest extends TestCase
     {
         Notification::fake();
 
-        $role = Role::factory([
-            'name' => 'Admin',
-        ])->create();
-
-        $admin = User::factory([
-            'role_id' => Role::whereName('Admin')->get()->first()->id,
-        ])->create();
+        $admin = User::factory()->create([
+            'role_id' => Role::whereName('Admin')->get()->first()->id,    
+        ]);
 
         $response = $this->post('/tickets', $this->validFields([]));
 
@@ -115,12 +116,10 @@ class TicketTest extends TestCase
         $response = $this->get('tickets');
 
         $response->assertOk();
-        $response->assertSeeInOrder([
-            'Tickets list', 
-            $ticket->title,
-            $ticket->status, 
-            $ticket->description,
-        ]);
+        $response->assertSee($ticket->title);
+        $response->assertSee($ticket->priority);
+        $response->assertSee($ticket->status);
+        $response->assertSee(substr($ticket->description,0,60));
     }
 
     public function test_the_ticket_details_page_should_display_ticket_informations()
@@ -134,7 +133,6 @@ class TicketTest extends TestCase
         $response = $this->get('tickets/' . $ticket->id);
 
         $response->assertOk();
-        $response->assertSee('Ticket details');
         $response->assertSee($ticket->title);
         $response->assertSee($ticket->description);
         $response->assertSee($ticket->priority);
@@ -187,8 +185,6 @@ class TicketTest extends TestCase
             "labels" => ["1", "3"],
             "categories" => ["1", "2"]
         ]);
-
-        $response->assertOk();
 
         $this->assertEquals('title modification', $ticket->title);
     }
