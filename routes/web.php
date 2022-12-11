@@ -29,8 +29,10 @@ Route::middleware('auth')->group(function(){
     Route::resource('comments', CommentController::class);
 });
 
-Route::middleware(['auth', 'is_admin'])->group(function(){
-    Route::get('admin', [AdminController::class, 'index']);
+Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function(){
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/tickets/{ticket}/assign', [AdminController::class, 'chooseAgent']);
+    Route::put('/tickets/{ticket}/assign', [AdminController::class, 'assignTicket'])->name('admin.assign_ticket');
 });
 
 require __DIR__.'/auth.php';
